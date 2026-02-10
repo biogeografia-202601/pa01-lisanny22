@@ -1,8 +1,7 @@
 ---
-title: "Título del manuscrito (informativo, no \"Práctica X\")"
+title: "Partición de la variación en comunidades de ácaros: influencia ambiental y espacial"
 author:
-  - "Nombre Apellido (Matrícula XXXXX)"
-  - "Nombre Apellido (Matrícula XXXXX) [si aplica]"
+  - "Lisanny de la Rosa (Matrícula 100675664)"
 course: "Biogeografía (GEO-131)"
 practice: "Práctica: Técnicas de ecología numérica con *datasets* de R"
 date: "`r format(Sys.Date(), '%Y-%m-%d')`"
@@ -13,6 +12,8 @@ output:
     number_sections: false
     fig_caption: yes
 always_allow_html: true
+bibliography: referencias.bib 
+csl: apa(1).csl 
 ---
 
 ```{r setup, include=FALSE}
@@ -56,39 +57,47 @@ REGLAS DE LA PRÁCTICA (resumen operativo)
 
 # 1. Introducción
 
-## 1.1. Contexto biogeográfico/ecológico
 
-> **Describe el fenómeno/patrón** (diversidad, composición, gradiente, estructura espacial, etc.) que se relaciona con el ejercicio elegido.
-> Es suficiente un contexto breve y bien enfocado.
 
 ## 1.2. Problema y justificación
 
-> **¿Qué problema vas a resolver con este dataset?**
-> ¿Por qué es relevante para biogeografía/ecología numérica?
+El análisis de comunidades biológicas enfrenta el reto de distinguir entre los efectos ambientales y los efectos espaciales en la distribución de las especies. En el caso de los ácaros que habitan en musgos, resulta complejo determinar si su presencia y abundancia se deben principalmente a condiciones del sustrato (densidad, humedad, tipo) o a la proximidad espacial entre sitios de muestreo. Este problema es relevante porque la falta de claridad puede llevar a interpretaciones erróneas sobre los factores que realmente controlan la biodiversidad en un ecosistema.
 
-## 1.3. Preguntas e hipótesis
 
-> **Declara explícitamente** 2–4 preguntas (o hipótesis si aplica).
-> Ejemplos de plantilla:
 
-* **P1.** …
-* **P2.** …
-* **H1 (si aplica).** …
 
-## 1.4. Recorrido teórico mínimo exigido (checklist)
+## 1.3. Recorrido teórico mínimo exigido (checklist)
 
-> Marca y evidencia en el manuscrito (con definición breve + uso correcto) **los conceptos teóricos** relacionados con tu ejercicio.
-> (Borra lo que no aplique; añade lo que sí.)
 
-* [ ] AED/EDA (resúmenes, outliers, escalas)
-* [ ] Transformaciones (Hellinger, log, estandarización, etc.)
-* [ ] Distancias (Bray–Curtis, Jaccard, Euclidiana, etc.) y justificación
-* [ ] Técnica principal (PCA/CA/NMDS/CCA/db-RDA/cluster/PERMANOVA/iNEXT/SDM/…)
-* [ ] Supuestos y limitaciones de la técnica
-* [ ] Interpretación (ejes, biplots, centroides vs dispersión, etc.)
-* [ ] Escala y muestreo (qué representa un sitio/muestra)
-* [ ] Implicaciones biogeográficas/ecológicas (qué sugiere el patrón)
-* [ ] Reproducibilidad (pipeline ejecutable, semillas, sesión)
+**AED/EDA**  
+Se realizó una exploración inicial de los datos de abundancia de ácaros en musgos (*mite*), verificando la distribución de especies y posibles valores extremos. Cada fila representa un sitio de muestreo y cada columna una especie, lo que permite identificar patrones de abundancia y rareza.  
+
+**Transformaciones**  
+Se aplicó la transformación de **Hellinger** a la matriz de abundancias, lo cual reduce el peso de especies muy dominantes y facilita el uso de técnicas basadas en distancias euclidianas.  
+
+**Distancias y justificación**  
+La transformación Hellinger permite trabajar con la **distancia euclidiana**, que es adecuada para análisis de partición de varianza y métodos lineales. En otros contextos, Bray–Curtis o Jaccard serían alternativas, pero aquí la elección se justifica por la compatibilidad con el método.  
+
+**Técnica principal**  
+La técnica principal es la **partición de varianza (varpart)**, que descompone la variación en la comunidad en fracciones explicadas por variables ambientales y espaciales.  
+
+**Limitaciones de la técnica**  
+- Supone que las variables ambientales y espaciales seleccionadas son representativas.  
+- No capta procesos biológicos no medidos (ej. interacciones entre especies).  
+- La fracción no explicada puede ser alta, reflejando limitaciones en los datos.  
+
+**Interpretación**  
+La interpretación se centra en los diagramas de partición de varianza, donde se visualizan las fracciones explicadas por ambiente, espacio y su intersección. No se utilizan biplots en este caso, pero sí diagramas de Venn.  
+
+**Escala y muestreo**  
+Cada muestra corresponde a un sitio de musgo muestreado, con coordenadas espaciales (x, y) y variables ambientales asociadas.  
+
+**Implicaciones biogeográficas/ecológicas**  
+El análisis permite inferir si la distribución de ácaros está más determinada por condiciones locales (densidad, humedad, tipo de sustrato) o por la proximidad espacial. Esto aporta información sobre procesos de dispersión y control ambiental en comunidades microartrópodas.  
+
+**Reproducibilidad**  
+El análisis es reproducible en R mediante el paquete **vegan**, con un pipeline que incluye: carga de datos, transformación Hellinger, construcción de polinomios espaciales y aplicación de `varpart`. Se recomienda fijar semillas (`set.seed()`) para garantizar replicabilidad en pasos aleatorios.  
+
 
 # 2. Materiales y métodos
 
@@ -96,14 +105,51 @@ REGLAS DE LA PRÁCTICA (resumen operativo)
 
 ### 2.1.1. Dataset y origen
 
-> Indica **qué dataset** usas (`dune`, `varespec/varechem`, `mite`, `BCI`, etc.) y **de qué paquete** viene.
-> Incluye la referencia/cita del paquete o fuente cuando corresponda.
+En este ejercicio se utiliza el dataset mite, acompañado de sus tablas asociadas mite.env y mite.xy, disponibles en el paquete vegan de R.
+
+**mite**: matriz de abundancias de especies de ácaros recolectados en muestras de musgo.
+
+**mite.env**: variables ambientales medidas en los mismos sitios de muestreo (densidad del sustrato, contenido de agua y tipo de sustrato).
+
+**mite.xy**: coordenadas espaciales de los sitios de muestreo, que permiten analizar patrones espaciales.
+
+Este conjunto de datos fue recolectado originalmente por Daniel Borcard (1989) y ha sido ampliamente utilizado en estudios de ecología numérica y análisis de comunidades, especialmente en la demostración de técnicas de partición de varianza y análisis espacial.
+
 
 ```{r datos-origen}
-# TODO: carga/obtén el dataset
-# Ejemplo:
-# data(dune, package = "vegan")
-# data(dune.env, package = "vegan")
+data(mite); data(mite.env); data(mite.xy)
+Y <- decostand(mite, "hellinger")
+# Polinomios espaciales (x, y, x^2, y^2, xy)
+S <- with(mite.xy, data.frame(x, y, x2 = x^2, y2 = y^2, xy = x*y))
+vpart <- varpart(Y, mite.env[,c("SubsDens","WatrCont","Substrate")], S)
+vpart
+
+
+#> Partition of variance in RDA 
+#> 
+#> Call: varpart(Y = Y, X = mite.env[, c("SubsDens", "WatrCont",
+#> "Substrate")], S)
+#> 
+#> Explanatory tables:
+#> X1:  mite.env[, c("SubsDens", "WatrCont", "Substrate")]
+#> X2:  S 
+#> 
+#> No. of explanatory tables: 2 
+#> Total variation (SS): 27.205 
+#>             Variance: 0.39428 
+#> No. of observations: 70 
+#> 
+#> Partition table:
+#>                      Df R.squared Adj.R.squared Testable
+#> [a+c] = X1            8   0.42839       0.35343     TRUE
+#> [b+c] = X2            5   0.35495       0.30455     TRUE
+#> [a+b+c] = X1+X2      13   0.54761       0.44259     TRUE
+#> Individual fractions                                    
+#> [a] = X1|X2           8                 0.13804     TRUE
+#> [b] = X2|X1           5                 0.08916     TRUE
+#> [c]                   0                 0.21539    FALSE
+#> [d] = Residuals                         0.55741    FALSE
+#> ---
 ```
 
 ### 2.1.2. Diseño de muestreo y variables
