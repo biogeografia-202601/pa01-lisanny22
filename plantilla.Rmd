@@ -57,21 +57,50 @@ REGLAS DE LA PRÁCTICA (resumen operativo)
 
 # 1. Introducción
 
-La identificación de los factores que determinan la distribución de las especies constituye un eje central en la ecología. Se reconoce que las comunidades biológicas están estructuradas tanto por condiciones ambientales como por procesos espaciales, incluyendo dispersión y dinámica histórica (@legendre2012numerical). En este marco, la partición de la variación se ha consolidado como una herramienta metodológica que permite separar la influencia de estas dimensiones y evaluar su importancia relativa en la organización de las comunidades (@borcard1992partialling).
+La identificación de los factores que determinan la distribución de las especies constituye un eje central en la ecología. Se reconoce que las comunidades biológicas están estructuradas tanto por condiciones ambientales como por procesos espaciales, incluyendo dispersión y dinámica histórica [@Borcard2011]. En este marco, la partición de la variación se ha consolidado como una herramienta metodológica que permite separar la influencia de estas dimensiones y evaluar su importancia relativa en la organización de las comunidades [@borcard1992partialling].
 
-Los ácaros oribátidos, organismos abundantes en suelos y turberas, ofrecen un modelo idóneo para este tipo de análisis. Su distribución puede estar condicionada por variables ambientales como la densidad del sustrato, el contenido de agua y el tipo de sustrato, pero también por procesos espaciales relacionados con la dispersión limitada y la heterogeneidad del hábitat (@borcard2004dissecting). El conjunto de datos clásico de la turbera de Quebec constituye un escenario de referencia para aplicar estas técnicas y explorar cómo se combinan los factores ambientales y espaciales en la estructuración de comunidades.
+Los ácaros oribátidos, organismos abundantes en suelos y turberas, ofrecen un modelo idóneo para este tipo de análisis. Su distribución puede estar condicionada por variables ambientales como la densidad del sustrato, el contenido de agua y el tipo de sustrato, pero también por procesos espaciales relacionados con la dispersión limitada y la heterogeneidad del hábitat [@borcard2004dissecting]. El conjunto de datos clásico de la turbera de Quebec constituye un escenario de referencia para aplicar estas técnicas y explorar cómo se combinan los factores ambientales y espaciales en la estructuración de comunidades.
 
 En este contexto, el problema central consiste en distinguir la contribución relativa de cada dimensión. Una primera pregunta que orienta este trabajo es si existe evidencia de dispersión limitada en las comunidades de ácaros. Si la fracción espacial pura explica una proporción significativa de la variación, ello sugeriría que la distribución de las especies no depende únicamente del ambiente, sino también de restricciones en la dispersión. Una segunda pregunta se refiere a la escala espacial considerada: ¿qué nivel de detalle falta por capturar en el modelo? Si la fracción inexplicada resulta elevada, podría indicar que las variables espaciales utilizadas no reflejan toda la estructura espacial, lo que abriría la posibilidad de incorporar escalas más finas o más amplias en futuros análisis. De estas preguntas se deriva la hipótesis de que tanto las variables ambientales como las espaciales contribuyen a explicar la variación en la composición de especies, pero que existe una fracción espacial significativa independiente del ambiente, lo que apoyaría la idea de que la dispersión limitada y la estructura espacial del hábitat desempeñan un papel clave en la organización de las comunidades.
 
-Este análisis se inscribe en el marco más amplio de las ciencias ecológicas y biogeográficas. La integración de factores ambientales y espaciales permite avanzar hacia una comprensión más completa de los procesos que generan y mantienen la biodiversidad. La partición de la variación no solo aporta evidencia sobre la ecología de los ácaros, sino que también contribuye a debates generales sobre la importancia relativa del nicho y la dispersión en la estructuración de comunidades, un tema central en la ecología contemporánea (@hubbell2011unified, @cottenie2005integrating).
+Este analisis se inscribe en el marco más amplio de las ciencias ecológicas y biogeográficas. La integración de factores ambientales y espaciales permite avanzar hacia una comprensión más completa de los procesos que generan y mantienen la biodiversidad. La partición de la variación no solo aporta evidencia sobre la ecología de los ácaros, sino que también contribuye a debates generales sobre la importancia relativa del nicho y la dispersión en la estructuración de comunidades, un tema central en la ecología contemporánea [@hubbell2011unified, @cottenie2005integrating].
 
 # 2. Materiales y métodos
 
-## 2.1. Datos
+***Área de estudio y datos de la comunidad de ácaros***
 
-### 2.1.1. Dataset y origen
+Para este estudio se emplearon los conjuntos de datos mite, mite.env y mite.xy, disponibles en el paquete vegan de R [@vegan]. El dataset mite contiene la abundancia de especies de ácaros en 70 muestras de sustrato, mientras que mite.env provee información ambiental asociada a cada muestra (densidad del sustrato, contenido de agua y tipo de sustrato). El dataset mite.xy incluye las coordenadas espaciales de las muestras, permitiendo la incorporación de gradientes espaciales en los análisis.
 
 
+***Variables ambientales***  
+Las condiciones ambientales asociadas a cada muestra se obtuvieron del dataset complementario mite.env. Este incluye tres variables relevantes:
+
+- Densidad del sustrato (SubsDens), que refleja la compactación del medio y puede influir en la disponibilidad de microhábitats.
+
+- Contenido de agua (WatrCont), indicador de humedad, un factor crítico para la supervivencia y dispersión de los ácaros.
+
+- Tipo de sustrato (Substrate), variable categórica que distingue entre diferentes clases de hábitat, aportando información sobre heterogeneidad ambiental.
+
+Estas variables fueron seleccionadas por su relevancia ecológica y por representar condiciones físicas y químicas que potencialmente afectan la estructura de las comunidades de ácaros.
+
+***Variables espaciales***  
+La información espacial proviene del dataset mite.xy, que contiene las coordenadas de cada muestra en el área de estudio. A partir de estas coordenadas se generaron polinomios espaciales de primer y segundo orden (x, y, x², y², xy). Este procedimiento permite modelar gradientes espaciales y capturar patrones de autocorrelación espacial en la distribución de las especies. La inclusión de polinomios espaciales es una aproximación común para representar procesos de dispersión limitada y efectos espaciales no directamente asociados a las variables ambientales medidas.
+
+***Transformación de datos*** 
+La matriz de abundancia de especies fue transformada mediante la estandarización de Hellinger (decostand(mite, "hellinger")). Esta transformación convierte las abundancias en valores relativos y aplica una raíz cuadrada, reduciendo la influencia de especies dominantes y evitando problemas asociados a la doble ausencia. El método de Hellinger es ampliamente recomendado para análisis de ordenación y partición de varianza en ecología comunitaria, ya que preserva las relaciones de similitud entre muestras y mejora la interpretación de los resultados.
+
+***Análisis estadístico***  
+El análisis principal consistió en una partición de varianza mediante la función varpart() del paquete vegan. Este procedimiento permite descomponer la varianza explicada en cuatro fracciones:
+
+- Ambiente puro ([a]), correspondiente a la varianza explicada únicamente por las variables ambientales.
+
+- Espacio puro ([b]), correspondiente a la varianza explicada únicamente por las variables espaciales.
+
+- Fracción compartida ([c]), que refleja la varianza explicada simultáneamente por ambiente y espacio, indicando estructuración espacial de las condiciones ambientales.
+
+- Varianza residual ([d]), que representa la proporción no explicada por los predictores considerados.
+
+El significado estadístico de las fracciones de interés se evaluó mediante análisis de redundancia (RDA) y pruebas de permutación (anova.cca()), lo que permite determinar si las asociaciones observadas son robustas y no producto del azar. Este enfoque proporciona una visión integral de los factores que estructuran las comunidades de ácaros, diferenciando entre efectos puramente ambientales, espaciales y compartidos.
 
 ```{r datos-origen}
 data(mite); data(mite.env); data(mite.xy)
