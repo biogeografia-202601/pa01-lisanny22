@@ -69,7 +69,7 @@ Este analisis se inscribe en el marco más amplio de las ciencias ecológicas y 
 
 ***Área de estudio y datos de la comunidad de ácaros***
 
-Para este estudio se emplearon los conjuntos de datos mite, mite.env y mite.xy, disponibles en el paquete vegan de R [@vegan]. El dataset mite contiene la abundancia de especies de ácaros en 70 muestras de sustrato, mientras que mite.env provee información ambiental asociada a cada muestra (densidad del sustrato, contenido de agua y tipo de sustrato). El dataset mite.xy incluye las coordenadas espaciales de las muestras, permitiendo la incorporación de gradientes espaciales en los análisis.
+El conjunto de datos mite corresponde a un muestreo clásico en ecología de comunidades realizado por Daniel Borcard en 1989. El muestreo consistió en la recolección de 70 núcleos de suelo en un área relativamente pequeña de 2.5 m × 10 m, dentro de un hábitat de musgos (Sphagnum) localizado en un bosque húmedo/bog del sur de Quebec, Canadá. Estos datos, junto con la información ambiental y espacial asociada, se encuentran disponibles en el paquete vegan de R [@vegan]. El dataset mite contiene la abundancia de especies de ácaros en las 70 muestras de sustrato, mientras que mite.env provee variables ambientales relevantes (densidad del sustrato, contenido de agua y tipo de sustrato). Por su parte, mite.xy incluye las coordenadas espaciales de cada muestra, lo que permite incorporar gradientes espaciales en los análisis y evaluar la influencia conjunta de factores ambientales y espaciales sobre la estructura de las comunidades de ácaros.
 
 
 ***Variables ambientales***  
@@ -83,11 +83,14 @@ Las condiciones ambientales asociadas a cada muestra se obtuvieron del dataset c
 
 Estas variables fueron seleccionadas por su relevancia ecológica y por representar condiciones físicas y químicas que potencialmente afectan la estructura de las comunidades de ácaros.
 
+
 ***Variables espaciales***  
 La información espacial proviene del dataset mite.xy, que contiene las coordenadas de cada muestra en el área de estudio. A partir de estas coordenadas se generaron polinomios espaciales de primer y segundo orden (x, y, x², y², xy). Este procedimiento permite modelar gradientes espaciales y capturar patrones de autocorrelación espacial en la distribución de las especies. La inclusión de polinomios espaciales es una aproximación común para representar procesos de dispersión limitada y efectos espaciales no directamente asociados a las variables ambientales medidas.
 
+
 ***Transformación de datos*** 
 La matriz de abundancia de especies fue transformada mediante la estandarización de Hellinger (decostand(mite, "hellinger")). Esta transformación convierte las abundancias en valores relativos y aplica una raíz cuadrada, reduciendo la influencia de especies dominantes y evitando problemas asociados a la doble ausencia. El método de Hellinger es ampliamente recomendado para análisis de ordenación y partición de varianza en ecología comunitaria, ya que preserva las relaciones de similitud entre muestras y mejora la interpretación de los resultados.
+
 
 ***Análisis estadístico***  
 El análisis principal consistió en una partición de varianza mediante la función varpart() del paquete vegan. Este procedimiento permite descomponer la varianza explicada en cuatro fracciones:
