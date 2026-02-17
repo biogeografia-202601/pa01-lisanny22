@@ -1,5 +1,5 @@
 ---
-title: "Partición de la variación en comunidades de ácaros: influencia ambiental y espacial"
+title: "Partición de la variación en comunidades de ácaros, influencia ambiental y espacial"
 author:
   - "Lisanny de la Rosa (Matrícula 100675664)"
 course: "Biogeografía (GEO-131)"
@@ -13,7 +13,7 @@ output:
     fig_caption: yes
 always_allow_html: true
 bibliography: referencias.bib 
-csl: apa(1).csl 
+csl: apa.csl 
 ---
 
 ```{r setup, include=FALSE}
@@ -57,47 +57,13 @@ REGLAS DE LA PRÁCTICA (resumen operativo)
 
 # 1. Introducción
 
+La identificación de los factores que determinan la distribución de las especies constituye un eje central en la ecología. Se reconoce que las comunidades biológicas están estructuradas tanto por condiciones ambientales como por procesos espaciales, incluyendo dispersión y dinámica histórica (@legendre2012numerical). En este marco, la partición de la variación se ha consolidado como una herramienta metodológica que permite separar la influencia de estas dimensiones y evaluar su importancia relativa en la organización de las comunidades (@borcard1992partialling).
 
+Los ácaros oribátidos, organismos abundantes en suelos y turberas, ofrecen un modelo idóneo para este tipo de análisis. Su distribución puede estar condicionada por variables ambientales como la densidad del sustrato, el contenido de agua y el tipo de sustrato, pero también por procesos espaciales relacionados con la dispersión limitada y la heterogeneidad del hábitat (@borcard2004dissecting). El conjunto de datos clásico de la turbera de Quebec constituye un escenario de referencia para aplicar estas técnicas y explorar cómo se combinan los factores ambientales y espaciales en la estructuración de comunidades.
 
-## 1.2. Problema y justificación
+En este contexto, el problema central consiste en distinguir la contribución relativa de cada dimensión. Una primera pregunta que orienta este trabajo es si existe evidencia de dispersión limitada en las comunidades de ácaros. Si la fracción espacial pura explica una proporción significativa de la variación, ello sugeriría que la distribución de las especies no depende únicamente del ambiente, sino también de restricciones en la dispersión. Una segunda pregunta se refiere a la escala espacial considerada: ¿qué nivel de detalle falta por capturar en el modelo? Si la fracción inexplicada resulta elevada, podría indicar que las variables espaciales utilizadas no reflejan toda la estructura espacial, lo que abriría la posibilidad de incorporar escalas más finas o más amplias en futuros análisis. De estas preguntas se deriva la hipótesis de que tanto las variables ambientales como las espaciales contribuyen a explicar la variación en la composición de especies, pero que existe una fracción espacial significativa independiente del ambiente, lo que apoyaría la idea de que la dispersión limitada y la estructura espacial del hábitat desempeñan un papel clave en la organización de las comunidades.
 
-El análisis de comunidades biológicas enfrenta el reto de distinguir entre los efectos ambientales y los efectos espaciales en la distribución de las especies. En el caso de los ácaros que habitan en musgos, resulta complejo determinar si su presencia y abundancia se deben principalmente a condiciones del sustrato (densidad, humedad, tipo) o a la proximidad espacial entre sitios de muestreo. Este problema es relevante porque la falta de claridad puede llevar a interpretaciones erróneas sobre los factores que realmente controlan la biodiversidad en un ecosistema.
-
-
-
-
-## 1.3. Recorrido teórico mínimo exigido (checklist)
-
-
-**AED/EDA**  
-Se realizó una exploración inicial de los datos de abundancia de ácaros en musgos (*mite*), verificando la distribución de especies y posibles valores extremos. Cada fila representa un sitio de muestreo y cada columna una especie, lo que permite identificar patrones de abundancia y rareza.  
-
-**Transformaciones**  
-Se aplicó la transformación de **Hellinger** a la matriz de abundancias, lo cual reduce el peso de especies muy dominantes y facilita el uso de técnicas basadas en distancias euclidianas.  
-
-**Distancias y justificación**  
-La transformación Hellinger permite trabajar con la **distancia euclidiana**, que es adecuada para análisis de partición de varianza y métodos lineales. En otros contextos, Bray–Curtis o Jaccard serían alternativas, pero aquí la elección se justifica por la compatibilidad con el método.  
-
-**Técnica principal**  
-La técnica principal es la **partición de varianza (varpart)**, que descompone la variación en la comunidad en fracciones explicadas por variables ambientales y espaciales.  
-
-**Limitaciones de la técnica**  
-- Supone que las variables ambientales y espaciales seleccionadas son representativas.  
-- No capta procesos biológicos no medidos (ej. interacciones entre especies).  
-- La fracción no explicada puede ser alta, reflejando limitaciones en los datos.  
-
-**Interpretación**  
-La interpretación se centra en los diagramas de partición de varianza, donde se visualizan las fracciones explicadas por ambiente, espacio y su intersección. No se utilizan biplots en este caso, pero sí diagramas de Venn.  
-
-**Escala y muestreo**  
-Cada muestra corresponde a un sitio de musgo muestreado, con coordenadas espaciales (x, y) y variables ambientales asociadas.  
-
-**Implicaciones biogeográficas/ecológicas**  
-El análisis permite inferir si la distribución de ácaros está más determinada por condiciones locales (densidad, humedad, tipo de sustrato) o por la proximidad espacial. Esto aporta información sobre procesos de dispersión y control ambiental en comunidades microartrópodas.  
-
-**Reproducibilidad**  
-El análisis es reproducible en R mediante el paquete **vegan**, con un pipeline que incluye: carga de datos, transformación Hellinger, construcción de polinomios espaciales y aplicación de `varpart`. Se recomienda fijar semillas (`set.seed()`) para garantizar replicabilidad en pasos aleatorios.  
-
+Este análisis se inscribe en el marco más amplio de las ciencias ecológicas y biogeográficas. La integración de factores ambientales y espaciales permite avanzar hacia una comprensión más completa de los procesos que generan y mantienen la biodiversidad. La partición de la variación no solo aporta evidencia sobre la ecología de los ácaros, sino que también contribuye a debates generales sobre la importancia relativa del nicho y la dispersión en la estructuración de comunidades, un tema central en la ecología contemporánea (@hubbell2011unified, @cottenie2005integrating).
 
 # 2. Materiales y métodos
 
@@ -105,15 +71,6 @@ El análisis es reproducible en R mediante el paquete **vegan**, con un pipeline
 
 ### 2.1.1. Dataset y origen
 
-En este ejercicio se utiliza el dataset mite, acompañado de sus tablas asociadas mite.env y mite.xy, disponibles en el paquete vegan de R.
-
-**mite**: matriz de abundancias de especies de ácaros recolectados en muestras de musgo.
-
-**mite.env**: variables ambientales medidas en los mismos sitios de muestreo (densidad del sustrato, contenido de agua y tipo de sustrato).
-
-**mite.xy**: coordenadas espaciales de los sitios de muestreo, que permiten analizar patrones espaciales.
-
-Este conjunto de datos fue recolectado originalmente por Daniel Borcard (1989) y ha sido ampliamente utilizado en estudios de ecología numérica y análisis de comunidades, especialmente en la demostración de técnicas de partición de varianza y análisis espacial.
 
 
 ```{r datos-origen}
