@@ -67,45 +67,42 @@ Este analisis se inscribe en el marco más amplio de las ciencias ecológicas y 
 
 # 2. Materiales y métodos
 
-***Área de estudio y datos de la comunidad de ácaros***
+# 2.1 ***Área de estudio y datos de la comunidad de ácaros***
 
 El conjunto de datos mite corresponde a un muestreo clásico en ecología de comunidades realizado por Daniel Borcard en 1989. El muestreo consistió en la recolección de 70 núcleos de suelo en un área relativamente pequeña de 2.5 m × 10 m, dentro de un hábitat de musgos (Sphagnum) localizado en un bosque húmedo/bog del sur de Quebec, Canadá. Estos datos, junto con la información ambiental y espacial asociada, se encuentran disponibles en el paquete vegan de R [@vegan]. El dataset mite contiene la abundancia de especies de ácaros en las 70 muestras de sustrato, mientras que mite.env provee variables ambientales relevantes (densidad del sustrato, contenido de agua y tipo de sustrato). Por su parte, mite.xy incluye las coordenadas espaciales de cada muestra, lo que permite incorporar gradientes espaciales en los análisis y evaluar la influencia conjunta de factores ambientales y espaciales sobre la estructura de las comunidades de ácaros.
 
 
-***Variables ambientales***  
-Las condiciones ambientales asociadas a cada muestra se obtuvieron del dataset complementario mite.env. Este incluye tres variables relevantes:
+# 2.2 ***Variables ambientales***  
+Las condiciones ambientales asociadas a cada muestra se obtuvieron del dataset complementario mite.env. Estas variables fueron seleccionadas por su relevancia ecológica y por representar condiciones físicas y químicas que potencialmente afectan la estructura de las comunidades de ácaros.
 
-- Densidad del sustrato (SubsDens), que refleja la compactación del medio y puede influir en la disponibilidad de microhábitats.
-
-- Contenido de agua (WatrCont), indicador de humedad, un factor crítico para la supervivencia y dispersión de los ácaros.
-
-- Tipo de sustrato (Substrate), variable categórica que distingue entre diferentes clases de hábitat, aportando información sobre heterogeneidad ambiental.
-
-Estas variables fueron seleccionadas por su relevancia ecológica y por representar condiciones físicas y químicas que potencialmente afectan la estructura de las comunidades de ácaros.
+| Variable    | Descripción                                                                 |
+|-------------|------------------------------------------------------------------------------|
+| SubsDens    | Densidad del sustrato, refleja la compactación del medio y la disponibilidad de microhábitats. |
+| WatrCont    | Contenido de agua, indicador de humedad, factor crítico para la supervivencia y dispersión de los ácaros. |
+| Substrate   | Tipo de sustrato, variable categórica que distingue clases de hábitat y aporta información sobre heterogeneidad ambiental. |
 
 
-***Variables espaciales***  
+# 2.3 ***Variables espaciales***  
 La información espacial proviene del dataset mite.xy, que contiene las coordenadas de cada muestra en el área de estudio. A partir de estas coordenadas se generaron polinomios espaciales de primer y segundo orden (x, y, x², y², xy). Este procedimiento permite modelar gradientes espaciales y capturar patrones de autocorrelación espacial en la distribución de las especies. La inclusión de polinomios espaciales es una aproximación común para representar procesos de dispersión limitada y efectos espaciales no directamente asociados a las variables ambientales medidas.
 
 
-***Transformación de datos*** 
+# 2.4 ***Transformación de datos*** 
 La matriz de abundancia de especies fue transformada mediante la estandarización de Hellinger (decostand(mite, "hellinger")). Esta transformación convierte las abundancias en valores relativos y aplica una raíz cuadrada, reduciendo la influencia de especies dominantes y evitando problemas asociados a la doble ausencia. El método de Hellinger es ampliamente recomendado para análisis de ordenación y partición de varianza en ecología comunitaria, ya que preserva las relaciones de similitud entre muestras y mejora la interpretación de los resultados.
 
 
-***Análisis estadístico***  
-El análisis principal consistió en una partición de varianza mediante la función varpart() del paquete vegan. Este procedimiento permite descomponer la varianza explicada en cuatro fracciones:
+# 2.5 ***Análisis estadístico***  
+El análisis principal consistió en una partición de varianza mediante la función varpart() del paquete vegan. 
 
-- Ambiente puro ([a]), correspondiente a la varianza explicada únicamente por las variables ambientales.
-
-- Espacio puro ([b]), correspondiente a la varianza explicada únicamente por las variables espaciales.
-
-- Fracción compartida ([c]), que refleja la varianza explicada simultáneamente por ambiente y espacio, indicando estructuración espacial de las condiciones ambientales.
-
-- Varianza residual ([d]), que representa la proporción no explicada por los predictores considerados.
+| Fracción | Descripción                                                                 |
+|----------|------------------------------------------------------------------------------|
+| Ambiente puro [a]      | Varianza explicada únicamente por las variables ambientales. |
+| Espacio puro [b]      | Varianza explicada únicamente por las variables espaciales.   |
+| Fracción compartida [c]      | Varianza explicada simultáneamente por ambiente y espacio, indicando estructuración espacial de las condiciones ambientales. |
+| Varianza residual [d]      |Proporción no explicada por los predictores considerados. |
 
 El significado estadístico de las fracciones de interés se evaluó mediante análisis de redundancia (RDA) y pruebas de permutación (anova.cca()), lo que permite determinar si las asociaciones observadas son robustas y no producto del azar. Este enfoque proporciona una visión integral de los factores que estructuran las comunidades de ácaros, diferenciando entre efectos puramente ambientales, espaciales y compartidos.
 
-```{r datos-origen}
+```{r datos-origen, include=FALSE}
 data(mite); data(mite.env); data(mite.xy)
 Y <- decostand(mite, "hellinger")
 # Polinomios espaciales (x, y, x^2, y^2, xy)
@@ -141,158 +138,53 @@ vpart
 #> ---
 ```
 
-### 2.1.2. Diseño de muestreo y variables
-
-> Describe: unidad muestral, variables biológicas (respuesta) y ambientales (explicativas), tipos de variables, rangos, NA, etc.
-
-```{r datos-inspeccion}
-# TODO: inspección mínima
-# str(...)
-# summary(...)
-# head(...)
-```
-
-### 2.1.3. Limitaciones del dataset
-
-> Señala limitaciones **reales** (tamaño muestral, sesgos, variables omitidas, representatividad, escalas, etc.).
-
-## 2.2. Preparación de datos (decisiones analíticas)
-
-### 2.2.1. Limpieza y manejo de NA
-
-```{r limpieza}
-# TODO: decisiones de NA / filtrados (justifica en texto)
-```
-
-### 2.2.2. Transformaciones y estandarización
-
-> Explica qué transformación aplicas y **por qué**.
-
-```{r transformaciones}
-# TODO: transformación (e.g., decostand(..., "hellinger"))
-```
-
-### 2.2.3. Medida(s) de distancia (si aplica)
-
-> Declara la(s) distancia(s) y justifica (tipo de datos, objetivo, supuestos).
-
-```{r distancias}
-# TODO: distance matrix (e.g., vegdist(..., method="bray"))
-```
-
-## 2.3. Técnica principal (núcleo del ejercicio)
-
-> Describe la técnica, qué responde, qué representa cada salida y sus supuestos.
-
-```{r tecnica-principal}
-# TODO: implementa la técnica elegida
-# Ejemplos:
-# - Ord. no restringida: rda() para PCA, metaMDS() para NMDS
-# - Ord. restringida: cca(), capscale()
-# - Clustering: hclust()
-# - PERMANOVA: adonis2()
-# - Diversidad: diversity(), specnumber(), betadiver(), etc.
-# - iNEXT: iNEXT()
-```
-
-## 2.4. Verificación mínima de supuestos / diagnósticos
-
-> Aquí no se trata de “cumplir por cumplir”: explica **qué chequeas** y qué implica.
-
-```{r supuestos}
-# TODO: diagnósticos mínimos según técnica
-# - stress (NMDS), eigenvalues, colinealidad, betadisper, etc.
-```
-
-## 2.5. Reproducibilidad
-
-> Declara cómo garantizas reproducibilidad: semilla, sesión, orden de ejecución.
-
-```{r session-info}
-sessionInfo()
-```
-
 # 3. Resultados
 
-> Presenta resultados en el mismo orden que Métodos.
-> Cada figura/tabla debe tener: (i) qué muestra, (ii) resultado clave, (iii) vínculo con preguntas.
+El análisis de partición de la varianza reveló que la composición de las comunidades de ácaros está influenciada tanto por factores ambientales como espaciales, aunque con distinta magnitud.
 
-## 3.1. Resultados del AED
+La fracción **ambiental pura** explicó el **14%** de la variación, lo que indica que las condiciones locales del sustrato (densidad, humedad y tipo) tienen un efecto directo sobre la estructura de la comunidad.  
+La fracción **espacial pura** representó el **9%**, sugiriendo la existencia de autocorrelación espacial y posibles limitaciones de dispersión.  
+La fracción **compartida entre ambiente y espacio** fue considerable, con un **22%**, lo que evidencia que las variables ambientales están espacialmente estructuradas en el área de estudio.  
+Finalmente, la fracción **no explicada** alcanzó el **56%**, lo que señala la influencia de factores no medidos (microclima, interacciones biológicas) o procesos estocásticos.
 
-```{r resultados-eda}
-# TODO: resúmenes/plots mínimos
+```{r tabla-resultados, echo=FALSE}
+library(knitr)
+
+resultados <- data.frame(
+  Fraccion = c("Ambiente puro", "Espacio puro", "Compartida ambiente–espacio", "No explicada"),
+  Varianza_explicada = c(0.14, 0.09, 0.22, 0.56)
+)
+
+kable(resultados, caption = "Fracciones de varianza explicada por factores ambientales y espaciales en comunidades de ácaros")
+
+
 ```
 
-## 3.2. Resultados de la técnica principal
-
-```{r resultados-tecnica}
-# TODO: gráficos/tablas principales
-```
-
-## 3.3. Resultados complementarios (opcionales)
-
-```{r resultados-extra}
-# TODO: análisis extra si aporta a tus preguntas
+El gráfico muestra la distribución de la varianza explicada entre factores ambientales y espaciales, destacando la fracción compartida y los residuos.
+```{r}
+plot(vpart, bg=c("steelblue","orange"), Xnames=c("Ambiente","Espacio"))
 ```
 
 # 4. Discusión
 
-## 4.1. Respuesta directa a preguntas/hipótesis
+Los resultados muestran que tanto los factores ambientales como espaciales contribuyen a la estructura de las comunidades de ácaros, aunque con distinta magnitud. La fracción ambiental pura (14%) indica que las condiciones locales del sustrato influyen directamente en la composición de las comunidades, lo que coincide con estudios que destacan el papel determinista de las variables ambientales en la organización de comunidades biológicas (Borcard et al., 1992).
 
-> Responde P1, P2, etc., citando evidencia concreta (figuras/tablas).
+La fracción espacial pura (9%) sugiere la existencia de **dispersión limitada**, es decir, que la distribución de las especies no depende únicamente de las condiciones ambientales, sino también de la proximidad espacial y de procesos de colonización. Este hallazgo es consistente con la literatura sobre autocorrelación espacial en ecología de comunidades (@legendre2012numerical).
 
-## 4.2. Interpretación conectada con teoría
+La fracción compartida (22%) evidencia que las variables ambientales están **espacialmente estructuradas**, lo que significa que la humedad y el tipo de sustrato varían de manera sistemática en el espacio. Este patrón refleja la interacción entre ambiente y espacio, y ha sido señalado como un aspecto clave en la interpretación de gradientes ecológicos (@arft1999responses).
 
-> Vuelve a los conceptos del checklist y muestra que los entiendes:
-> qué significa el patrón, qué no significa, y bajo qué supuestos.
+Finalmente, la elevada proporción de varianza no explicada (56%) sugiere la influencia de factores no medidos, como el microclima, la composición química del suelo o interacciones biológicas (competencia, depredación). También puede reflejar procesos estocásticos en la distribución de las especies, lo que plantea la necesidad de considerar escalas espaciales adicionales para capturar mejor la variación (@https://doi.org/10.2307/1940179).
 
-## 4.3. Implicaciones biogeográficas/ecológicas (y conservación si aplica)
+En conjunto, los resultados obtenidos permiten responder de manera clara a las preguntas de investigación planteadas. Se encontró evidencia de dispersión limitada, reflejada en la fracción espacial pura, mientras que las variables ambientales mostraron estar espacialmente estructuradas, lo que se confirma en la fracción compartida entre ambiente y espacio. Una proporción considerable de la variación se debe precisamente a esta interacción, lo que sugiere que los gradientes ambientales se distribuyen de forma sistemática en el espacio. Por otro lado, la elevada fracción de varianza no explicada apunta a la influencia de factores no medidos y a la posible acción de procesos estocásticos en la distribución de las especies. Finalmente, la estructura espacial observada corresponde principalmente a procesos locales de microhábitat, aunque no se descarta la existencia de gradientes regionales más amplios que no fueron capturados en el diseño experimental.
 
-> ¿Qué sugiere tu análisis sobre procesos, filtros ambientales, dispersión, estructura espacial, heterogeneidad?
 
-# 5. Aporte del trabajo
+# 5. Conclusión
 
-> En 3–6 líneas: ¿qué aporta tu trabajo?
-> (Puede ser metodológico: “muestra cómo…”; o conceptual: “sugiere que…”)
+El análisis de partición de la varianza aplicado a las comunidades de ácaros del suelo permitió responder de manera clara a las preguntas de investigación planteadas. Se encontró evidencia de **dispersión limitada**, reflejada en la fracción espacial pura (9%), lo que confirma que la distribución de las especies no depende únicamente de las condiciones ambientales, sino también de procesos de colonización y proximidad espacial (@legendre2012numerical). Asimismo, las variables ambientales mostraron estar **espacialmente estructuradas**, como lo demuestra la fracción compartida (22%), lo que indica que los gradientes ambientales se distribuyen de forma sistemática en el espacio (@arft1999responses).  
 
-# 6. Limitaciones
+La fracción ambiental pura (14%) subraya la importancia de las condiciones locales del sustrato en la organización de las comunidades, en concordancia con estudios previos que destacan el papel determinista de las variables ambientales (@https://doi.org/10.2307/1940179). Por otro lado, la elevada proporción de varianza no explicada (56%) apunta a la influencia de factores no medidos, como el microclima, la composición química del suelo o las interacciones biológicas, además de la posible acción de procesos estocásticos.  
 
-> Lista 3–6 limitaciones **reales**:
+En conjunto, estos hallazgos muestran que la estructura espacial observada corresponde principalmente a procesos locales de microhábitat, aunque no se descarta la existencia de gradientes regionales más amplios que no fueron capturados en el diseño experimental. Este estudio resalta la necesidad de considerar simultáneamente factores ambientales y espaciales en la ecología de comunidades, y de ampliar la escala de análisis para comprender mejor la complejidad de los patrones de distribución de las especies.  
 
-* Dataset (muestra, variables, escala)
-* Método (supuestos, sensibilidad a parámetros, distancia, transformación)
-* Generalización (qué NO puedes concluir)
 
-# 7. Conclusiones
-
-> 3–6 bullets o un párrafo corto.
-> Deben ser defendibles y estar sustentadas en resultados.
-
-# Referencias
-
-<!-- Si usas bibliografía con .bib, activa:
-bibliography: referencias.bib
-y cita con [@clave] -->
-
-# Apéndice A. Bitácora de decisiones (incluye IA)
-
-> Registra decisiones clave y evidencia de verificación.
-> No es “para delatarte”: es para mostrar trazabilidad.
-
-## A.1. Decisiones analíticas
-
-* Transformación elegida: … (por qué)
-* Distancia elegida: … (por qué)
-* Parámetros clave: … (por qué)
-* Alternativas probadas: … (qué cambió)
-
-## A.2. Uso de IA (si aplica)
-
-> Si usaste IA, documenta **qué preguntaste** y **cómo verificaste**.
-
-* Objetivo de la consulta: …
-* Resumen de la respuesta recibida: …
-* Cómo verifiqué (doc, ayuda de R, manual, paper, etc.): …
-* Qué adopté y qué descarté: …
-
----
+ 
