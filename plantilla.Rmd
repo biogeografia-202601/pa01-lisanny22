@@ -50,10 +50,9 @@ REGLAS DE LA PRÁCTICA (resumen operativo)
 
 # Resumen (Abstract)
 
-> **Escribe 150–250 palabras.**
-> Incluye: (i) problema, (ii) datos, (iii) técnica principal, (iv) 1–2 hallazgos, (v) conclusión principal y 1 limitación.
+El presente estudio abordó el problema de comprender cómo los factores ambientales y espaciales influyen en la estructura de comunidades de ácaros del suelo. Se analizaron datos de una parcela de 2.5 × 10 m, considerando variables ambientales (densidad del sustrato, contenido de agua y tipo de sustrato) y polinomios de coordenadas espaciales. La técnica principal utilizada fue la partición de la varianza mediante análisis de redundancia (RDA). Los resultados mostraron que la fracción ambiental pura explicó el 14% de la variación, mientras que la fracción espacial pura representó el 9%, evidenciando procesos de dispersión limitada [@legendre2012numerical]. Además, un 22% de la variación correspondió a la fracción compartida, lo que indica que las variables ambientales están espacialmente estructuradas [@arft1999responses]. En conclusión, tanto el ambiente como el espacio contribuyen significativamente a la organización de las comunidades, aunque el 56% de la variación permaneció sin explicación, lo que sugiere la influencia de factores no medidos y procesos estocásticos [@https://doi.org/10.2307/1940179]. Una limitación importante del estudio es la escala espacial reducida, que restringe la extrapolación de los resultados a niveles regionales.
 
-**Palabras clave:** `palabra1; palabra2; palabra3; ...`
+**Palabras clave:** Ácaros del suelo, Partición de la varianza, Redundancy Analysis (RDA), Factores ambientales, Estructura espacial, Dispersión limitada, Ecología de comunidades, Procesos estocásticos.`
 
 # 1. Introducción
 
@@ -167,22 +166,34 @@ plot(vpart, bg=c("steelblue","orange"), Xnames=c("Ambiente","Espacio"))
 
 # 4. Discusión
 
-Los resultados muestran que tanto los factores ambientales como espaciales contribuyen a la estructura de las comunidades de ácaros, aunque con distinta magnitud. La fracción ambiental pura (14%) indica que las condiciones locales del sustrato influyen directamente en la composición de las comunidades, lo que coincide con estudios que destacan el papel determinista de las variables ambientales en la organización de comunidades biológicas (Borcard et al., 1992).
+Los resultados muestran que tanto los factores ambientales como espaciales contribuyen a la estructura de las comunidades de ácaros, aunque con distinta magnitud. La fracción ambiental pura (14%) indica que las condiciones locales del sustrato influyen directamente en la composición de las comunidades, lo que coincide con estudios que destacan el papel determinista de las variables ambientales en la organización de comunidades biológicas [@https://doi.org/10.2307/1940179].
 
-La fracción espacial pura (9%) sugiere la existencia de **dispersión limitada**, es decir, que la distribución de las especies no depende únicamente de las condiciones ambientales, sino también de la proximidad espacial y de procesos de colonización. Este hallazgo es consistente con la literatura sobre autocorrelación espacial en ecología de comunidades (@legendre2012numerical).
+La fracción espacial pura (9%) sugiere la existencia de **dispersión limitada**, es decir, que la distribución de las especies no depende únicamente de las condiciones ambientales, sino también de la proximidad espacial y de procesos de colonización. Este hallazgo es consistente con la literatura sobre autocorrelación espacial en ecología de comunidades [@legendre2012numerical].
 
-La fracción compartida (22%) evidencia que las variables ambientales están **espacialmente estructuradas**, lo que significa que la humedad y el tipo de sustrato varían de manera sistemática en el espacio. Este patrón refleja la interacción entre ambiente y espacio, y ha sido señalado como un aspecto clave en la interpretación de gradientes ecológicos (@arft1999responses).
+La fracción compartida (22%) evidencia que las variables ambientales están **espacialmente estructuradas**, lo que significa que la humedad y el tipo de sustrato varían de manera sistemática en el espacio. Este patrón refleja la interacción entre ambiente y espacio, y ha sido señalado como un aspecto clave en la interpretación de gradientes ecológicos [@arft1999responses].
 
-Finalmente, la elevada proporción de varianza no explicada (56%) sugiere la influencia de factores no medidos, como el microclima, la composición química del suelo o interacciones biológicas (competencia, depredación). También puede reflejar procesos estocásticos en la distribución de las especies, lo que plantea la necesidad de considerar escalas espaciales adicionales para capturar mejor la variación (@https://doi.org/10.2307/1940179).
+Finalmente, la elevada proporción de varianza no explicada (56%) sugiere la influencia de factores no medidos, como el microclima, la composición química del suelo o interacciones biológicas (competencia, depredación). También puede reflejar procesos estocásticos en la distribución de las especies, lo que plantea la necesidad de considerar escalas espaciales adicionales para capturar mejor la variación [@https://doi.org/10.2307/1940179].
 
 En conjunto, los resultados obtenidos permiten responder de manera clara a las preguntas de investigación planteadas. Se encontró evidencia de dispersión limitada, reflejada en la fracción espacial pura, mientras que las variables ambientales mostraron estar espacialmente estructuradas, lo que se confirma en la fracción compartida entre ambiente y espacio. Una proporción considerable de la variación se debe precisamente a esta interacción, lo que sugiere que los gradientes ambientales se distribuyen de forma sistemática en el espacio. Por otro lado, la elevada fracción de varianza no explicada apunta a la influencia de factores no medidos y a la posible acción de procesos estocásticos en la distribución de las especies. Finalmente, la estructura espacial observada corresponde principalmente a procesos locales de microhábitat, aunque no se descarta la existencia de gradientes regionales más amplios que no fueron capturados en el diseño experimental.
 
 
-# 5. Conclusión
+# 5. Limitaciones del estudio
 
-El análisis de partición de la varianza aplicado a las comunidades de ácaros del suelo permitió responder de manera clara a las preguntas de investigación planteadas. Se encontró evidencia de **dispersión limitada**, reflejada en la fracción espacial pura (9%), lo que confirma que la distribución de las especies no depende únicamente de las condiciones ambientales, sino también de procesos de colonización y proximidad espacial (@legendre2012numerical). Asimismo, las variables ambientales mostraron estar **espacialmente estructuradas**, como lo demuestra la fracción compartida (22%), lo que indica que los gradientes ambientales se distribuyen de forma sistemática en el espacio (@arft1999responses).  
 
-La fracción ambiental pura (14%) subraya la importancia de las condiciones locales del sustrato en la organización de las comunidades, en concordancia con estudios previos que destacan el papel determinista de las variables ambientales (@https://doi.org/10.2307/1940179). Por otro lado, la elevada proporción de varianza no explicada (56%) apunta a la influencia de factores no medidos, como el microclima, la composición química del suelo o las interacciones biológicas, además de la posible acción de procesos estocásticos.  
+| Limitación                | Descripción                                                   | Implicación                                                                 |
+|---------------------------|---------------------------------------------------------------|------------------------------------------------------------------------------|
+| Escala espacial reducida  | El muestreo se realizó en una parcela pequeña (2.5 × 10 m).   | Limita la extrapolación de los resultados a escalas regionales más amplias. |
+| Número de variables ambientales | Solo se midieron densidad del sustrato, contenido de agua y tipo de sustrato. | Otros factores relevantes (pH, nutrientes, microclima) no fueron considerados. |
+| Varianza no explicada elevada | El 56% de la variación no fue atribuida a ambiente ni espacio. | Indica influencia de factores no medidos y procesos estocásticos.            |
+| Diseño temporal           | El estudio se realizó en un único momento.                    | No se captaron variaciones estacionales o interanuales.                      |
+| Dataset no publicado      | El conjunto de datos proviene de un muestreo no formalmente publicado. | Su uso está restringido a fines metodológicos y de enseñanza.                |
+
+
+# 6. Conclusión
+
+El análisis de partición de la varianza aplicado a las comunidades de ácaros del suelo permitió responder de manera clara a las preguntas de investigación planteadas. Se encontró evidencia de **dispersión limitada**, reflejada en la fracción espacial pura (9%), lo que confirma que la distribución de las especies no depende únicamente de las condiciones ambientales, sino también de procesos de colonización y proximidad espacial [@legendre2012numerical]. Asimismo, las variables ambientales mostraron estar **espacialmente estructuradas**, como lo demuestra la fracción compartida (22%), lo que indica que los gradientes ambientales se distribuyen de forma sistemática en el espacio [@arft1999responses].  
+
+La fracción ambiental pura (14%) subraya la importancia de las condiciones locales del sustrato en la organización de las comunidades, en concordancia con estudios previos que destacan el papel determinista de las variables ambientales [@https://doi.org/10.2307/1940179]. Por otro lado, la elevada proporción de varianza no explicada (56%) apunta a la influencia de factores no medidos, como el microclima, la composición química del suelo o las interacciones biológicas, además de la posible acción de procesos estocásticos.  
 
 En conjunto, estos hallazgos muestran que la estructura espacial observada corresponde principalmente a procesos locales de microhábitat, aunque no se descarta la existencia de gradientes regionales más amplios que no fueron capturados en el diseño experimental. Este estudio resalta la necesidad de considerar simultáneamente factores ambientales y espaciales en la ecología de comunidades, y de ampliar la escala de análisis para comprender mejor la complejidad de los patrones de distribución de las especies.  
 
