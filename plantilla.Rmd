@@ -139,12 +139,7 @@ vpart
 
 # 3. Resultados
 
-El análisis de partición de la varianza reveló que la composición de las comunidades de ácaros está influenciada tanto por factores ambientales como espaciales, aunque con distinta magnitud.
-
-La fracción **ambiental pura** explicó el **14%** de la variación, lo que indica que las condiciones locales del sustrato (densidad, humedad y tipo) tienen un efecto directo sobre la estructura de la comunidad.  
-La fracción **espacial pura** representó el **9%**, sugiriendo la existencia de autocorrelación espacial y posibles limitaciones de dispersión.  
-La fracción **compartida entre ambiente y espacio** fue considerable, con un **22%**, lo que evidencia que las variables ambientales están espacialmente estructuradas en el área de estudio.  
-Finalmente, la fracción **no explicada** alcanzó el **56%**, lo que señala la influencia de factores no medidos (microclima, interacciones biológicas) o procesos estocásticos.
+El análisis de partición de la varianza reveló que la composición de las comunidades de ácaros está influenciada tanto por factores ambientales como espaciales, aunque con distinta magnitud y relevancia ecológica. La fracción ambiental pura explicó el 14% de la variación, lo que confirma que las condiciones locales del sustrato —como densidad, humedad y tipo— ejercen un efecto directo sobre la estructura comunitaria, reflejando la importancia de los gradientes microambientales en la organización de las especies. La fracción espacial pura representó el 9%, lo que sugiere la existencia de autocorrelación espacial y posibles limitaciones de dispersión, indicando que la distribución de los ácaros no depende únicamente de las condiciones ambientales, sino también de procesos de proximidad y colonización. La fracción compartida entre ambiente y espacio fue considerable, alcanzando el 22%, lo que evidencia que las variables ambientales están espacialmente estructuradas en el área de estudio y que los gradientes ambientales se distribuyen de manera sistemática en el espacio. Finalmente, la fracción no explicada alcanzó el 56%, lo que señala la influencia de factores no medidos —como microclima, composición química del suelo o interacciones biológicas— y la posible acción de procesos estocásticos en la distribución de las especies. En conjunto, estos resultados muestran que la estructura de las comunidades de ácaros responde a una combinación de determinismo ambiental, limitaciones espaciales y procesos aleatorios, subrayando la complejidad de los patrones ecológicos y la necesidad de ampliar la escala y las variables consideradas para comprender mejor la dinámica de estas comunidades.
 
 ```{r tabla-resultados, echo=FALSE}
 library(knitr)
@@ -187,6 +182,8 @@ En conjunto, los resultados obtenidos permiten responder de manera clara a las p
 | Varianza no explicada elevada | El 56% de la variación no fue atribuida a ambiente ni espacio. | Indica influencia de factores no medidos y procesos estocásticos.            |
 | Diseño temporal           | El estudio se realizó en un único momento.                    | No se captaron variaciones estacionales o interanuales.                      |
 | Dataset no publicado      | El conjunto de datos proviene de un muestreo no formalmente publicado. | Su uso está restringido a fines metodológicos y de enseñanza.                |
+
+
 
 
 # 6. Conclusión

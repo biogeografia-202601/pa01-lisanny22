@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Factores ambientales y espaciales en comunidades de ácaros del suelo</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Lisanny de la Rosa" />
+    <meta name="date" content="2026-01-01" />
+    <script src="presentacion_files/header-attrs-2.27/header-attrs.js"></script>
+    <link href="presentacion_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="presentacion_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Factores ambientales y espaciales en comunidades de ácaros del suelo
+]
+.author[
+### Lisanny de la Rosa
+]
+.date[
+### 2026
+]
+
+---
+
+
+``` r
+library(vegan)
+```
+
+
+
+---
+
+# Objetivos y preguntas de investigación
+
+## Objetivo principal
+
+Evaluar la influencia relativa de factores ambientales y espaciales en la composición de comunidades de ácaros del suelo, mediante análisis de partición de la varianza.
+
+## Objetivos específicos
+
+- Cuantificar la fracción de variación explicada por las variables ambientales (densidad, humedad y tipo de sustrato).  
+- Determinar la fracción de variación atribuible a la estructura espacial y a procesos de dispersión limitada.  
+- Identificar la proporción de variación compartida entre ambiente y espacio, evidenciando gradientes ambientales espacialmente estructurados.  
+- Estimar la fracción de variación no explicada, reconociendo la influencia de factores no medidos y procesos estocásticos.  
+
+---
+
+## Preguntas específicas
+
+
+1. ¿En qué medida las condiciones locales del sustrato determinan la composición de las comunidades de ácaros?  
+2. ¿Existe evidencia de dispersión limitada y autocorrelación espacial en la distribución de las especies?  
+3. ¿Las variables ambientales están espacialmente estructuradas en el área de estudio?  
+4. ¿Qué proporción de la variación permanece sin explicación y qué procesos podrían estar involucrados?  
+
+---
+
+# Introducción
+
+La distribución de las especies está determinada por factores ambientales y procesos espaciales como la dispersión y la dinámica histórica [@Borcard2011]. La partición de la variación permite separar estas influencias y evaluar su importancia relativa en la organización de comunidades [@borcard1992partialling]. Los ácaros oribátidos, abundantes en suelos y turberas, constituyen un modelo idóneo para analizar cómo variables ambientales (densidad, agua, tipo de sustrato) y espaciales (dispersión limitada, heterogeneidad del hábitat) estructuran comunidades [@borcard2004dissecting], como muestra el clásico conjunto de datos de la turbera de Quebec. Este enfoque plantea la hipótesis de que tanto el ambiente como el espacio explican la variación, con una fracción espacial significativa independiente del ambiente, lo que refuerza el papel de la dispersión limitada en la ecología contemporánea [@hubbell2011unified; @cottenie2005integrating].
+
+
+---
+
+# Materiales y métodos
+
+
+El dataset **mite**, disponible en el paquete *vegan* de R [@vegan], corresponde a un muestreo clásico realizado por Daniel Borcard en 1989 en un hábitat de musgos (*Sphagnum*) dentro de un bosque húmedo/bog en el sur de Quebec, Canadá. Se recolectaron 70 núcleos de suelo en un área de 2.5 × 10 m, registrando abundancia de especies de ácaros (mite), variables ambientales relevantes como densidad del sustrato, contenido de agua y tipo de sustrato (mite.env), y coordenadas espaciales de cada muestra (mite.xy). Estos datos permiten evaluar la influencia conjunta de factores ambientales y espaciales en la estructura de las comunidades de ácaros.
+
+
+---
+
+# Metodología
+
+## Variables ambientales
+
+Las condiciones ambientales se obtuvieron del dataset **mite.env**, seleccionado por su relevancia ecológica.  
+Estas variables representan condiciones físicas y químicas que afectan la estructura de las comunidades de ácaros.
+
+| Variable   | Descripción |
+|------------|-------------|
+| SubsDens   | Densidad del sustrato: refleja compactación y disponibilidad de microhábitats. |
+| WatrCont   | Contenido de agua: indicador de humedad, crítico para supervivencia y dispersión. |
+| Substrate  | Tipo de sustrato: variable categórica que distingue clases de hábitat y heterogeneidad ambiental. |
+
+---
+
+## Variables espaciales
+
+La información espacial proviene del dataset **mite.xy**, con coordenadas de cada muestra.  
+A partir de ellas se generaron polinomios espaciales de primer y segundo orden (x, y, x², y², xy).  
+
+Este procedimiento:  
+- Modela gradientes espaciales  
+- Captura patrones de autocorrelación  
+- Representa procesos de dispersión limitada y efectos espaciales no asociados directamente a variables ambientales
+
+---
+
+# Resultados
+
+El análisis de partición de la varianza mostró que la composición de las comunidades de ácaros está influenciada por factores ambientales y espaciales, con distinta magnitud y relevancia ecológica.
+
+- **Ambiente puro (14%)**  
+  Condiciones locales del sustrato (densidad, humedad, tipo) ejercen un efecto directo sobre la estructura comunitaria.  
+  → Importancia de gradientes microambientales.
+
+- **Espacio puro (9%)**  
+  Evidencia de autocorrelación espacial y limitaciones de dispersión.  
+  → La distribución depende también de proximidad y colonización.
+
+- **Compartida (22%)**  
+  Variables ambientales estructuradas espacialmente.  
+  → Gradientes ambientales distribuidos sistemáticamente en el área.
+
+- **No explicada (56%)**  
+  Influencia de factores no medidos (microclima, química del suelo, interacciones biológicas).  
+  → Posible acción de procesos estocásticos.
+
+---
+
+
+
+
+Table: Fracciones de varianza explicada por factores ambientales y espaciales en comunidades de ácaros
+
+|Fraccion                    | Varianza_explicada|
+|:---------------------------|------------------:|
+|Ambiente puro               |               0.14|
+|Espacio puro                |               0.09|
+|Compartida ambiente–espacio |               0.22|
+|No explicada                |               0.56|
+
+&lt;img src="presentacion_files/figure-html/unnamed-chunk-2-1.png" width="100%" /&gt;
+
+---
+
+# Discusión (I)
+
+- Los resultados confirman que tanto ambiente como espacio contribuyen a la organización de las comunidades.  
+- La dispersión limitada sugiere que los ácaros enfrentan restricciones en su movilidad y colonización.  
+- La estructura espacial de las variables ambientales indica que los gradientes locales están alineados con patrones espaciales más amplios.  
+- La fracción no explicada refleja la importancia de factores no medidos y procesos aleatorios, lo que coincide con estudios previos en ecología de comunidades. 
+
+- Comparación con estudios previos:  
+  - Borcard et al. (1992) demostraron que separar el componente espacial permite identificar procesos de dispersión.  
+  - Legendre &amp; Anderson (1999) resaltaron la importancia de los gradientes ambientales en la organización comunitaria.  
+- Este estudio aporta evidencia empírica en comunidades de ácaros, mostrando que los patrones locales son resultado de la interacción entre ambiente y espacio.  
+- Implicaciones: comprender estos procesos es esencial para interpretar la dinámica de comunidades en ecosistemas más amplios.  
+
+---
+
+# Limitaciones del estudio
+
+| Limitación | Descripción | Implicación |
+|------------|-------------|-------------|
+| Escala espacial reducida | Parcela pequeña (2.5 × 10 m). | Limita extrapolación a escalas regionales. |
+| Variables ambientales | Solo densidad, agua y tipo de sustrato. | No se consideraron pH, nutrientes, microclima. |
+| Varianza no explicada | 56% sin atribución. | Factores no medidos y procesos estocásticos. |
+| Diseño temporal | Muestreo único. | No se captaron variaciones estacionales. |
+| Dataset no publicado | Datos metodológicos. | Uso restringido a enseñanza. |
+
+---
+
+# Conclusiones
+
+- La estructura de las comunidades de ácaros responde a una combinación de determinismo ambiental, limitaciones espaciales y procesos estocásticos.  
+- Existe evidencia de dispersión limitada y de gradientes ambientales espacialmente estructurados.  
+- La elevada fracción no explicada resalta la necesidad de incorporar nuevas variables y escalas de análisis.  
+- Reconocer las limitaciones fortalece la validez del estudio y orienta futuras investigaciones hacia un enfoque más integral.  
+
+---
+
+# Perspectivas futuras
+
+- Ampliar la escala espacial para evaluar gradientes regionales.  
+- Incorporar nuevas variables ambientales: pH, nutrientes, composición química del suelo.  
+- Realizar muestreos temporales para capturar variaciones estacionales e interanuales.  
+- Publicar datasets completos para fomentar reproducibilidad y comparaciones entre estudios.  
+- Integrar enfoques multivariados y modelos mixtos para explorar interacciones complejas.  
+
+---
+
+# Bibliografía
+Arft, A., Walker, M., Gurevitch, J., Alatalo, J., Bret-Harte, M., Dale, M., Diemer, M., Gugerli, F., Henry,G., Jones, M., et al. (1999). Responses of tundra plants to experimental warming: Meta-analysis of theinternational tundra experiment.Ecological Monographs,69(4), 1–24.Borcard, D., Gillet, F., &amp; Legendre, P. (2011).Numerical ecology with r. Springer. https://doi.org/10.1007/978-1-4419-7976-6Borcard, D., Legendre, P., Avois-Jacquet, C., &amp; Tuomisto, H. (2004). Dissecting the spatial structure ofecological data at multiple scales.Ecology,85(7), 1826–1832. https://doi.org/10.1890/03-3111Borcard, D., Legendre, P., &amp; Drapeau, P. (1992b). Partialling out the spatial component of ecologicalvariation.Ecology,73(3), 1045–1055. https://doi.org/10.2307/1940179Borcard, D., Legendre, P., &amp; Drapeau, P. (1992a). Partialling out the spatial component of ecologicalvariation.Ecology,73(3), 1045–1055. https://doi.org/https://doi.org/10.2307/1940179Cottenie, K. (2005). Integrating environmental and spatial processes in ecological community dynamics.Ecology Letters,8(11), 1175–1182. https://doi.org/10.1111/j.1461-0248.2005.00820.xHubbell, S. P. (2011). The unified neutral theory of biodiversity and biogeography. InThe unified neutraltheory of biodiversity and biogeography. Princeton University Press.Legendre, P., &amp; Legendre, L. (2012). Numerical ecology, third english ed.Developments in EnvironmentalModelling). Elsevier, Amsterdam,1006.Oksanen, J., Blanchet, F. G., Friendly, M., Kindt, R., Legendre, P., McGlinn, D., Minchin, P. R., O’Hara, R.B., Simpson, G. L., Solymos, P., Stevens, M. H. H., Szoecs, E., &amp; Wagner, H. (2025).Vegan: Communityecology package. https://CRAN.R-project.org/package=vegan6
+
+---
+ {#refs}
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,233 @@
+---
+title: "Factores ambientales y espaciales en comunidades de ácaros del suelo"
+author: "Lisanny de la Rosa"
+date: "2026"
+output: xaringan::moon_reader
+
+bibliography: referencias.bib 
+csl: apa.csl 
+---
+```{r, message=FALSE}
+library(vegan)
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  out.width = "100%"
+)
+# Paquetes (ajusta según el ejercicio elegido)
+pkg_needed <- c("vegan", "cluster", "indicspecies", "adespatial",
+                "iNEXT", "SpadeR", "ggplot2", "dplyr", "tidyr", "readr")
+has_pkg <- sapply(pkg_needed, requireNamespace, quietly = TRUE)
+if (!all(has_pkg)) {
+  message("Paquetes no críticos ausentes (se omitirán bloques opcionales): ",
+          paste(names(has_pkg)[!has_pkg], collapse = ", "))
+}
+invisible(sapply(names(has_pkg)[has_pkg], library, character.only = TRUE))
+```
+
+---
+
+# Objetivos y preguntas de investigación
+
+## Objetivo principal
+
+Evaluar la influencia relativa de factores ambientales y espaciales en la composición de comunidades de ácaros del suelo, mediante análisis de partición de la varianza.
+
+## Objetivos específicos
+
+- Cuantificar la fracción de variación explicada por las variables ambientales (densidad, humedad y tipo de sustrato).  
+- Determinar la fracción de variación atribuible a la estructura espacial y a procesos de dispersión limitada.  
+- Identificar la proporción de variación compartida entre ambiente y espacio, evidenciando gradientes ambientales espacialmente estructurados.  
+- Estimar la fracción de variación no explicada, reconociendo la influencia de factores no medidos y procesos estocásticos.  
+
+---
+
+## Preguntas específicas
+
+
+1. ¿En qué medida las condiciones locales del sustrato determinan la composición de las comunidades de ácaros?  
+2. ¿Existe evidencia de dispersión limitada y autocorrelación espacial en la distribución de las especies?  
+3. ¿Las variables ambientales están espacialmente estructuradas en el área de estudio?  
+4. ¿Qué proporción de la variación permanece sin explicación y qué procesos podrían estar involucrados?  
+
+---
+
+# Introducción
+
+La distribución de las especies está determinada por factores ambientales y procesos espaciales como la dispersión y la dinámica histórica [@Borcard2011]. La partición de la variación permite separar estas influencias y evaluar su importancia relativa en la organización de comunidades [@borcard1992partialling]. Los ácaros oribátidos, abundantes en suelos y turberas, constituyen un modelo idóneo para analizar cómo variables ambientales (densidad, agua, tipo de sustrato) y espaciales (dispersión limitada, heterogeneidad del hábitat) estructuran comunidades [@borcard2004dissecting], como muestra el clásico conjunto de datos de la turbera de Quebec. Este enfoque plantea la hipótesis de que tanto el ambiente como el espacio explican la variación, con una fracción espacial significativa independiente del ambiente, lo que refuerza el papel de la dispersión limitada en la ecología contemporánea [@hubbell2011unified; @cottenie2005integrating].
+
+
+---
+
+# Materiales y métodos
+
+
+El dataset **mite**, disponible en el paquete *vegan* de R [@vegan], corresponde a un muestreo clásico realizado por Daniel Borcard en 1989 en un hábitat de musgos (*Sphagnum*) dentro de un bosque húmedo/bog en el sur de Quebec, Canadá. Se recolectaron 70 núcleos de suelo en un área de 2.5 × 10 m, registrando abundancia de especies de ácaros (mite), variables ambientales relevantes como densidad del sustrato, contenido de agua y tipo de sustrato (mite.env), y coordenadas espaciales de cada muestra (mite.xy). Estos datos permiten evaluar la influencia conjunta de factores ambientales y espaciales en la estructura de las comunidades de ácaros.
+
+
+---
+
+# Metodología
+
+## Variables ambientales
+
+Las condiciones ambientales se obtuvieron del dataset **mite.env**, seleccionado por su relevancia ecológica.  
+Estas variables representan condiciones físicas y químicas que afectan la estructura de las comunidades de ácaros.
+
+| Variable   | Descripción |
+|------------|-------------|
+| SubsDens   | Densidad del sustrato: refleja compactación y disponibilidad de microhábitats. |
+| WatrCont   | Contenido de agua: indicador de humedad, crítico para supervivencia y dispersión. |
+| Substrate  | Tipo de sustrato: variable categórica que distingue clases de hábitat y heterogeneidad ambiental. |
+
+---
+
+## Variables espaciales
+
+La información espacial proviene del dataset **mite.xy**, con coordenadas de cada muestra.  
+A partir de ellas se generaron polinomios espaciales de primer y segundo orden (x, y, x², y², xy).  
+
+Este procedimiento:  
+- Modela gradientes espaciales  
+- Captura patrones de autocorrelación  
+- Representa procesos de dispersión limitada y efectos espaciales no asociados directamente a variables ambientales
+
+---
+
+# Resultados
+
+El análisis de partición de la varianza mostró que la composición de las comunidades de ácaros está influenciada por factores ambientales y espaciales, con distinta magnitud y relevancia ecológica.
+
+- **Ambiente puro (14%)**  
+  Condiciones locales del sustrato (densidad, humedad, tipo) ejercen un efecto directo sobre la estructura comunitaria.  
+  → Importancia de gradientes microambientales.
+
+- **Espacio puro (9%)**  
+  Evidencia de autocorrelación espacial y limitaciones de dispersión.  
+  → La distribución depende también de proximidad y colonización.
+
+- **Compartida (22%)**  
+  Variables ambientales estructuradas espacialmente.  
+  → Gradientes ambientales distribuidos sistemáticamente en el área.
+
+- **No explicada (56%)**  
+  Influencia de factores no medidos (microclima, química del suelo, interacciones biológicas).  
+  → Posible acción de procesos estocásticos.
+
+---
+
+```{r datos-origen, include=FALSE}
+data(mite); data(mite.env); data(mite.xy)
+Y <- decostand(mite, "hellinger")
+# Polinomios espaciales (x, y, x^2, y^2, xy)
+S <- with(mite.xy, data.frame(x, y, x2 = x^2, y2 = y^2, xy = x*y))
+vpart <- varpart(Y, mite.env[,c("SubsDens","WatrCont","Substrate")], S)
+vpart
+
+
+#> Partition of variance in RDA 
+#> 
+#> Call: varpart(Y = Y, X = mite.env[, c("SubsDens", "WatrCont",
+#> "Substrate")], S)
+#> 
+#> Explanatory tables:
+#> X1:  mite.env[, c("SubsDens", "WatrCont", "Substrate")]
+#> X2:  S 
+#> 
+#> No. of explanatory tables: 2 
+#> Total variation (SS): 27.205 
+#>             Variance: 0.39428 
+#> No. of observations: 70 
+#> 
+#> Partition table:
+#>                      Df R.squared Adj.R.squared Testable
+#> [a+c] = X1            8   0.42839       0.35343     TRUE
+#> [b+c] = X2            5   0.35495       0.30455     TRUE
+#> [a+b+c] = X1+X2      13   0.54761       0.44259     TRUE
+#> Individual fractions                                    
+#> [a] = X1|X2           8                 0.13804     TRUE
+#> [b] = X2|X1           5                 0.08916     TRUE
+#> [c]                   0                 0.21539    FALSE
+#> [d] = Residuals                         0.55741    FALSE
+#> ---
+```
+
+```{r tabla-resultados, echo=FALSE}
+library(knitr)
+
+resultados <- data.frame(
+  Fraccion = c("Ambiente puro", "Espacio puro", "Compartida ambiente–espacio", "No explicada"),
+  Varianza_explicada = c(0.14, 0.09, 0.22, 0.56)
+)
+
+kable(resultados, caption = "Fracciones de varianza explicada por factores ambientales y espaciales en comunidades de ácaros")
+
+
+```
+
+```{r}
+plot(vpart, bg = c("steelblue", "orange"), Xnames = c("Ambiente", "Espacio"))
+```
+
+---
+
+# Discusión (I)
+
+- Los resultados confirman que tanto ambiente como espacio contribuyen a la organización de las comunidades.  
+- La dispersión limitada sugiere que los ácaros enfrentan restricciones en su movilidad y colonización.  
+- La estructura espacial de las variables ambientales indica que los gradientes locales están alineados con patrones espaciales más amplios.  
+- La fracción no explicada refleja la importancia de factores no medidos y procesos aleatorios, lo que coincide con estudios previos en ecología de comunidades. 
+
+- Comparación con estudios previos:  
+  - Borcard et al. (1992) demostraron que separar el componente espacial permite identificar procesos de dispersión.  
+  - Legendre & Anderson (1999) resaltaron la importancia de los gradientes ambientales en la organización comunitaria.  
+- Este estudio aporta evidencia empírica en comunidades de ácaros, mostrando que los patrones locales son resultado de la interacción entre ambiente y espacio.  
+- Implicaciones: comprender estos procesos es esencial para interpretar la dinámica de comunidades en ecosistemas más amplios.  
+
+---
+
+# Limitaciones del estudio
+
+| Limitación | Descripción | Implicación |
+|------------|-------------|-------------|
+| Escala espacial reducida | Parcela pequeña (2.5 × 10 m). | Limita extrapolación a escalas regionales. |
+| Variables ambientales | Solo densidad, agua y tipo de sustrato. | No se consideraron pH, nutrientes, microclima. |
+| Varianza no explicada | 56% sin atribución. | Factores no medidos y procesos estocásticos. |
+| Diseño temporal | Muestreo único. | No se captaron variaciones estacionales. |
+| Dataset no publicado | Datos metodológicos. | Uso restringido a enseñanza. |
+
+---
+
+# Conclusiones
+
+- La estructura de las comunidades de ácaros responde a una combinación de determinismo ambiental, limitaciones espaciales y procesos estocásticos.  
+- Existe evidencia de dispersión limitada y de gradientes ambientales espacialmente estructurados.  
+- La elevada fracción no explicada resalta la necesidad de incorporar nuevas variables y escalas de análisis.  
+- Reconocer las limitaciones fortalece la validez del estudio y orienta futuras investigaciones hacia un enfoque más integral.  
+
+---
+
+# Perspectivas futuras
+
+- Ampliar la escala espacial para evaluar gradientes regionales.  
+- Incorporar nuevas variables ambientales: pH, nutrientes, composición química del suelo.  
+- Realizar muestreos temporales para capturar variaciones estacionales e interanuales.  
+- Publicar datasets completos para fomentar reproducibilidad y comparaciones entre estudios.  
+- Integrar enfoques multivariados y modelos mixtos para explorar interacciones complejas.  
+
+---
+
+# Bibliografía
+Arft, A., Walker, M., Gurevitch, J., Alatalo, J., Bret-Harte, M., Dale, M., Diemer, M., Gugerli, F., Henry,G., Jones, M., et al. (1999). Responses of tundra plants to experimental warming: Meta-analysis of theinternational tundra experiment.Ecological Monographs,69(4), 1–24.Borcard, D., Gillet, F., & Legendre, P. (2011).Numerical ecology with r. Springer. https://doi.org/10.1007/978-1-4419-7976-6Borcard, D., Legendre, P., Avois-Jacquet, C., & Tuomisto, H. (2004). Dissecting the spatial structure ofecological data at multiple scales.Ecology,85(7), 1826–1832. https://doi.org/10.1890/03-3111Borcard, D., Legendre, P., & Drapeau, P. (1992b). Partialling out the spatial component of ecologicalvariation.Ecology,73(3), 1045–1055. https://doi.org/10.2307/1940179Borcard, D., Legendre, P., & Drapeau, P. (1992a). Partialling out the spatial component of ecologicalvariation.Ecology,73(3), 1045–1055. https://doi.org/https://doi.org/10.2307/1940179Cottenie, K. (2005). Integrating environmental and spatial processes in ecological community dynamics.Ecology Letters,8(11), 1175–1182. https://doi.org/10.1111/j.1461-0248.2005.00820.xHubbell, S. P. (2011). The unified neutral theory of biodiversity and biogeography. InThe unified neutraltheory of biodiversity and biogeography. Princeton University Press.Legendre, P., & Legendre, L. (2012). Numerical ecology, third english ed.Developments in EnvironmentalModelling). Elsevier, Amsterdam,1006.Oksanen, J., Blanchet, F. G., Friendly, M., Kindt, R., Legendre, P., McGlinn, D., Minchin, P. R., O’Hara, R.B., Simpson, G. L., Solymos, P., Stevens, M. H. H., Szoecs, E., & Wagner, H. (2025).Vegan: Communityecology package. https://CRAN.R-project.org/package=vegan6
+
+---
+ {#refs}
+
