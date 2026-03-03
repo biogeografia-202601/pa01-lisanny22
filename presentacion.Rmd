@@ -30,6 +30,13 @@ if (!all(has_pkg)) {
 invisible(sapply(names(has_pkg)[has_pkg], library, character.only = TRUE))
 ```
 
+
+---
+
+## Introducción
+
+La distribución de las especies está determinada por factores ambientales y procesos espaciales como la dispersión y la dinámica histórica [@Borcard2011]. La partición de la variación permite separar estas influencias y evaluar su importancia relativa en la organización de comunidades [@borcard1992partialling]. Los ácaros oribátidos, abundantes en suelos y turberas, constituyen un modelo idóneo para analizar cómo variables ambientales (densidad, agua, tipo de sustrato) y espaciales (dispersión limitada, heterogeneidad del hábitat) estructuran comunidades [@borcard2004dissecting], como muestra el clásico conjunto de datos de la turbera de Quebec. Este enfoque plantea la hipótesis de que tanto el ambiente como el espacio explican la variación, con una fracción espacial significativa independiente del ambiente, lo que refuerza el papel de la dispersión limitada en la ecología contemporánea [@hubbell2011unified; @cottenie2005integrating].
+
 ---
 
 # Objetivos y preguntas de investigación
@@ -52,12 +59,6 @@ Evaluar la influencia relativa de factores ambientales y espaciales en la compos
 2. ¿Existe evidencia de dispersión limitada y autocorrelación espacial en la distribución de las especies?  
 3. ¿Las variables ambientales están espacialmente estructuradas en el área de estudio?  
 4. ¿Qué proporción de la variación permanece sin explicación y qué procesos podrían estar involucrados?  
-
----
-
-## Introducción
-
-La distribución de las especies está determinada por factores ambientales y procesos espaciales como la dispersión y la dinámica histórica [@Borcard2011]. La partición de la variación permite separar estas influencias y evaluar su importancia relativa en la organización de comunidades [@borcard1992partialling]. Los ácaros oribátidos, abundantes en suelos y turberas, constituyen un modelo idóneo para analizar cómo variables ambientales (densidad, agua, tipo de sustrato) y espaciales (dispersión limitada, heterogeneidad del hábitat) estructuran comunidades [@borcard2004dissecting], como muestra el clásico conjunto de datos de la turbera de Quebec. Este enfoque plantea la hipótesis de que tanto el ambiente como el espacio explican la variación, con una fracción espacial significativa independiente del ambiente, lo que refuerza el papel de la dispersión limitada en la ecología contemporánea [@hubbell2011unified; @cottenie2005integrating].
 
 ---
 
